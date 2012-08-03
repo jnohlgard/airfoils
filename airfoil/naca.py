@@ -96,7 +96,8 @@ def run():
     yf = list(yu)
     yf.reverse()
     yf.extend(yl[1:]) # skip common leading edge point (0,0)
-    tension = 1/6;
+    tension = 1/6 # 1/6 looks good, try other values if it looks bad.
+
     upper = svg.spline(xu, yu)
     lower = svg.spline(xl, yl)
     full = svg.smooth_spline(xf, yf, tension, style='stroke: green; fill: none; stroke-width: 1')
