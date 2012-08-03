@@ -2,16 +2,16 @@ default_style = "stroke: black; fill: none; stroke-width: 1"
 
 __all__ = ["spline", "smooth_spline"]
 spline_template = '<path style="{style}" d="{path}" />'
+polyline_template = '<polyline style="{style}" points="{points}" />'
 
-def spline(x, y, style=None):
+def polyline(x, y, style=None):
     if style is None:
         style = default_style
-    path = 'M {x},{y} C {x},{y}'.format(x=x[0], y=y[0])
-    path += ' {x},{y} {x},{y}'.format(x=x[1], y=y[1])
-    for i in range(2, len(x)):
-        path += ' S {x},{y} {x},{y}'.format(x=x[i], y=y[i])
-    spline = spline_template.format(path=path, style=style)
-    return spline
+    points = '{x},{y}'.format(x=x[0], y=y[0])
+    for i in range(1, len(x)):
+        points += ' {x},{y}'.format(x=x[i], y=y[i])
+    polyline = polyline_template.format(points=points, style=style)
+    return polyline
 
 # See http://stackoverflow.com/questions/1257168/how-do-i-create-a-bezier-curve-to-represent-a-smoothed-polyline
 def smooth_spline(x, y, tension, style=None):
