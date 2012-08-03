@@ -83,15 +83,30 @@ def run():
 
     x = linspace(0, 1, num_points)
     (xu, yu, xl, yl, yc, yt) = naca4(m, p, t,x)
-    upper = svg.spline(xu * 1000, 200-yu * 1000)
-    lower = svg.spline(xl * 1000, 200-yl * 1000)
-    camber = svg.spline(x * 1000, 200-yc * 1000, 'stroke: red; fill: none; stroke-width: 1')
-    symmetric = svg.spline(x * 1000, 200-yt * 1000, 'stroke: blue; fill: none; stroke-width: 1')
+    # rescale to fit inside viewbox
+    xu *= 1000
+    xl *= 1000
+    yu = 200-yu * 1000
+    yl = 200-yl * 1000
+
+    # combine into a complete airfoil contour
+    xf = list(xu)
+    xf.reverse()
+    xf.extend(xl[1:]) # skip common leading edge point (0,0)
+    yf = list(yu)
+    yf.reverse()
+    yf.extend(yl[1:]) # skip common leading edge point (0,0)
+    tension = 1/6;
+    upper = svg.spline(xu, yu)
+    lower = svg.spline(xl, yl)
+    full = svg.smooth_spline(xf, yf, tension, style='stroke: green; fill: none; stroke-width: 1')
+    camber = svg.smooth_spline(x * 1000, 200-yc * 1000, tension, style='stroke: red; fill: none; stroke-width: 1')
+    symmetric = svg.smooth_spline(x * 1000, 200-yt * 1000, tension, style='stroke: blue; fill: none; stroke-width: 1')
     if filename == '-':
-        print(svg_template.format(desc="NACA{num} Airfoil".format(num=naca_number), contents=upper+lower+camber+symmetric))
+        print(svg_template.format(desc="NACA{num} Airfoil".format(num=naca_number), contents=upper+lower+camber+symmetric+full))
     else:
         with open(filename, 'w') as f:
-            print(svg_template.format(desc="NACA{num} Airfoil".format(num=naca_number), contents=upper+lower+camber+symmetric), file=f)
+            print(svg_template.format(desc="NACA{num} Airfoil".format(num=naca_number), contents=upper+lower+camber+symmetric+full), file=f)
 
 if __name__ == '__main__':
     run()
