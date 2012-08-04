@@ -148,12 +148,13 @@ def run():
     lower = svg.polyline(xl, yl)
     full = svg.smooth_spline(xf, yf, tension, style='stroke: green; fill: none; stroke-width: 1')
     camber = svg.smooth_spline(x * 1000, 200-yc * 1000, tension, style='stroke: red; fill: none; stroke-width: 1')
-    symmetric = svg.smooth_spline(x * 1000, 200-yt * 1000, tension, style='stroke: blue; fill: none; stroke-width: 1')
+    thickness = svg.smooth_spline(x * 1000, 200-yt * 1000, tension, style='stroke: blue; fill: none; stroke-width: 1')
+    svg_data = svg_template.format(desc="NACA{num} Airfoil".format(num=naca_number), contents=upper+lower+camber+thickness+full)
     if filename == '-':
-        print(svg_template.format(desc="NACA{num} Airfoil".format(num=naca_number), contents=upper+lower+camber+symmetric+full))
+        print(svg_data)
     else:
         with open(filename, 'w') as f:
-            print(svg_template.format(desc="NACA{num} Airfoil".format(num=naca_number), contents=upper+lower+camber+symmetric+full), file=f)
+            print(svg_data, file=f)
 
 if __name__ == '__main__':
     run()
