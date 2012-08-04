@@ -150,10 +150,10 @@ def run():
 
     upper = svg.polyline(xu, yu)
     lower = svg.polyline(xl, yl)
-    full = svg.smooth_spline(xf, yf, tension, style='stroke: green; fill: none; stroke-width: 1')
-    camber = svg.smooth_spline(x, yc, tension, style='stroke: red; fill: none; stroke-width: 1')
-    #~ thickness = svg.smooth_spline(x, yt, tension, style='stroke: blue; fill: none; stroke-width: 1')
-    chord = svg.polyline([x[0],x[-1]], [yc[0],yc[-1]], style='stroke: blue; fill: none; stroke-width: 1')
+    full = svg.smooth_spline(xf, yf, tension, style='stroke: green; fill: none; stroke-width: 0.2')
+    camber = svg.smooth_spline(x, yc, tension, style='stroke: red; fill: none; stroke-width: 0.2')
+    #~ thickness = svg.smooth_spline(x, yt, tension, style='stroke: blue; fill: none; stroke-width: 0.2')
+    chord = svg.polyline([x[0],x[-1]], [yc[0],yc[-1]], style='stroke: blue; fill: none; stroke-width: 0.2')
     svg_data = svg_template.format(desc="NACA{num} Airfoil".format(num=naca_number), contents=upper+lower+camber+chord+full)
     if filename == '-':
         print(svg_data)

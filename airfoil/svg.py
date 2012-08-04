@@ -1,4 +1,4 @@
-default_style = "stroke: black; fill: none; stroke-width: 1"
+default_style = "stroke: black; fill: none; stroke-width: 0.2"
 
 __all__ = ["spline", "smooth_spline"]
 spline_template = '<path style="{style}" d="{path}" />'
