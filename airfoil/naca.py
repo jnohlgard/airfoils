@@ -3,7 +3,7 @@ from __future__ import print_function
 from numpy import *
 from copy import copy
 
-__all__ = ["naca4"]
+__all__ = ['naca4', 'naca5']
 
 def naca4(m, p, t, x):
     # Handle both percentage arguments and integer arguments
@@ -134,6 +134,10 @@ def run():
     xl *= 1000
     yu = 200-yu * 1000
     yl = 200-yl * 1000
+    x *= 1000
+    yc = 200-yc * 1000
+    yt = 200-yt * 1000
+
 
     # combine into a complete airfoil contour
     xf = list(xu)
@@ -147,9 +151,10 @@ def run():
     upper = svg.polyline(xu, yu)
     lower = svg.polyline(xl, yl)
     full = svg.smooth_spline(xf, yf, tension, style='stroke: green; fill: none; stroke-width: 1')
-    camber = svg.smooth_spline(x * 1000, 200-yc * 1000, tension, style='stroke: red; fill: none; stroke-width: 1')
-    thickness = svg.smooth_spline(x * 1000, 200-yt * 1000, tension, style='stroke: blue; fill: none; stroke-width: 1')
-    svg_data = svg_template.format(desc="NACA{num} Airfoil".format(num=naca_number), contents=upper+lower+camber+thickness+full)
+    camber = svg.smooth_spline(x, yc, tension, style='stroke: red; fill: none; stroke-width: 1')
+    #~ thickness = svg.smooth_spline(x, yt, tension, style='stroke: blue; fill: none; stroke-width: 1')
+    chord = svg.polyline([x[0],x[-1]], [yc[0],yc[-1]], style='stroke: blue; fill: none; stroke-width: 1')
+    svg_data = svg_template.format(desc="NACA{num} Airfoil".format(num=naca_number), contents=upper+lower+camber+chord+full)
     if filename == '-':
         print(svg_data)
     else:
