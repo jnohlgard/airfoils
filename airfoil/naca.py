@@ -130,11 +130,11 @@ def run():
         (xu, yu, xl, yl, yc, yt) = naca5(cL, p, t, x)
 
     # rescale to fit inside viewbox
-    xu *= 1000
-    xl *= 1000
+    xu = 0 + xu * 1000
+    xl = 0 + xl * 1000
     yu = 200-yu * 1000
     yl = 200-yl * 1000
-    x *= 1000
+    x = 0 + x * 1000
     yc = 200-yc * 1000
     yt = 200-yt * 1000
 
