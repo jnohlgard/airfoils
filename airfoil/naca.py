@@ -114,7 +114,9 @@ def run():
     filename = args.filename
     num_points = args.num_points
 
-    x = linspace(0, 1, num_points)
+    x = linspace(start=0, stop=1, num=num_points)
+    # Distribute more points close to the front where there is more curvature
+    x = power(x, 2)
 
     if naca_number < 10000:
         # NACA 4-digit series
